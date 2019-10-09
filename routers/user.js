@@ -9,7 +9,7 @@ registerUser(function (data) {
             success:"1"
         })
     }else {
-        res.status(404).send({
+        res.status(200).send({
             success:"0"
         })
     }
