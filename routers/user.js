@@ -1,13 +1,19 @@
 const express= require("express");
 const router=express.Router();
-const {user} =require('../helper');
+const {registerUser} =require('../helper');
 
 router.post('/user',(req,res)=>{
-user.registerUser(function (data) {
-    console.log(data)
-    res.status(200).send({
-        success:"1"
-    })
+registerUser(function (data) {
+    if(data===1){
+        res.status(200).send({
+            success:"1"
+        })
+    }else {
+        res.status(404).send({
+            success:"0"
+        })
+    }
+
 })
 });
 
