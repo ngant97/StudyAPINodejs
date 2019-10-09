@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const {registerUser,login} = require('../helper');
+const {registerUser, login} = require('../helper');
 
 router.post('/user', (req, res) => {
-    let {username, password} = req.body
-    registerUser(username, password, function (data, token, error) {
+    let {name, username, password, address, phoneNumber, gender} = req.body
+    registerUser(name, username, password, address, phoneNumber, gender, function (data, token, error) {
         console.log("token:" + token);
         if (data === 1) {
             res.status(200).send({
@@ -25,14 +25,21 @@ router.post('/user', (req, res) => {
 });
 router.post('/login', (req, res) => {
     let {username, password} = req.body
-    login(username, password, function (data, token, error) {
+    login(username, password, function (data, token, error, body) {
         console.log("token:" + token);
+        console.log("body" + body)
         if (data === 1) {
             res.status(200).send({
                 success: "1",
                 data: {
-                    accessToken: token
-                }
+                    accessToken: token,
+                    id: body._id,
+                    name: body.name,
+                    username: body.username,
+                    address: body.address,
+                    phoneNumber: body.phone,
+                    gender: body.gender
+                },
 
             })
         } else {

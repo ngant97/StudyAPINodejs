@@ -5,7 +5,7 @@ const {md5, verifyToken, getToken} = require("../utils")
 const uri = "mongodb+srv://ngant97:1@cluster0-m4uoy.mongodb.net/admin?retryWrites=true&w=majority";
 const client = new mongoClient(uri, {useNewUrlParser: true});
 
-function registerUser(username, password, callback) {
+function registerUser(name,username, password,address, phone,gender,callback) {
     mongoClient.connect(uri, function (err, client) {
         if (err) {
             console.log(err);
@@ -13,23 +13,27 @@ function registerUser(username, password, callback) {
             let db = client.db('Pomodoro')
             let user = db.collection('user');
             let data = {
-                name: username,
-                pass: md5(password)
+                name:name,
+                username: username,
+                password: md5(password),
+                address:address,
+                phoneNumber:phone,
+                gender:gender
             };
             getDataUser(username, dataCallback => {
                 if (dataCallback == null) {
                     user.insertOne(data, function (err, res) {
                         if (err) {
                             console.log(err);
-                            callback(0, "", "Thêm bản ghi bị lỗi")
+                            callback(0, "Thêm bản ghi bị lỗi")
                         } else {
                             console.log(data._id)
-                            callback(1, getToken({id: data._id}))
+                            callback(1,"Thêm tài khoản thành công")
                         }
 
                     });
                 } else {
-                    callback(0, "", "Đã tồn tại tài khoản trong hệ thống")
+                    callback(0, "Đã tồn tại tài khoản trong hệ thống")
                 }
             });
 
@@ -60,7 +64,7 @@ function getUser(name, password, callback) {
         } else {
             let db = client.db('Pomodoro');
             let user = db.collection('user');
-            user.findOne({"name": name, "pass": password}, function (err, data) {
+            user.findOne({"username": name, "password": password}, function (err, data) {
                 callback(data)
             })
         }
@@ -78,8 +82,7 @@ function login(username, password, callback) {
                         console.log(err);
                         callback(0, "", "Có lỗi xảy ra")
                     } else {
-                        console.log(dataCallback._id)
-                        callback(1, getToken({id: dataCallback._id}))
+                        callback(1, getToken({id: dataCallback._id}),"",dataCallback)
                     }
                 } else {
                     callback(0, "", "Không tìm thấy tài khoản trong hệ thông")
