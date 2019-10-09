@@ -8,7 +8,7 @@ router.post('/user', (req, res) => {
         if (data === 1) {
             res.status(200).send({
                 success: "1",
-                data: {
+                response: {
                     noti: noti
                 }
 
@@ -30,7 +30,7 @@ router.post('/login', (req, res) => {
         if (data === 1) {
             res.status(200).send({
                 success: "1",
-                data: {
+                response: {
                     accessToken: token,
                     id: body._id,
                     name: body.name,
