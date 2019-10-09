@@ -73,16 +73,16 @@ function login(username, password, callback) {
             console.log(err);
         } else {
             getUser(username, md5(password), dataCallback => {
-                if (dataCallback == null) {
+                if (dataCallback != null) {
                     if (err) {
                         console.log(err);
                         callback(0, "", "Có lỗi xảy ra")
                     } else {
-                        console.log(data._id)
-                        callback(1, getToken({id: data._id}))
+                        console.log(dataCallback._id)
+                        callback(1, getToken({id: dataCallback._id}))
                     }
                 } else {
-                    callback(0, "", "Không tìm thấy tai fkhoarn trong hệ thông")
+                    callback(0, "", "Không tìm thấy tài khoản trong hệ thông")
                 }
             });
         }
