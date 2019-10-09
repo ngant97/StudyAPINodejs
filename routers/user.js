@@ -4,13 +4,12 @@ const {registerUser, login} = require('../helper');
 
 router.post('/user', (req, res) => {
     let {name, username, password, address, phoneNumber, gender} = req.body
-    registerUser(name, username, password, address, phoneNumber, gender, function (data, token, error) {
-        console.log("token:" + token);
+    registerUser(name, username, password, address, phoneNumber, gender, function (data, noti, error) {
         if (data === 1) {
             res.status(200).send({
                 success: "1",
                 data: {
-                    accessToken: token
+                    noti: noti
                 }
 
             })
