@@ -8,7 +8,5 @@ app.use(bodyParser.urlencoded({extended: false}));
 // parse application/json
 app.use(bodyParser.json());
 app.use('/api', require("./routers/user"))
-app.get("/",(req,res)=>{
-    res.send("hi")
-})
+
 
